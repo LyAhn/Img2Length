@@ -37,6 +37,7 @@ Thumbs.db
 /build
 /dist
 *.spec
+*.user
 
 # qtcreator generated files
 *.pro.user*
