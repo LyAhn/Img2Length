@@ -14,7 +14,7 @@ class FolderInfoDialog(QDialog):
         super().__init__(parent)
         self.ui = Ui_InfoDialog()
         self.ui.setupUi(self)
-        
+
 class Img2Length(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -33,7 +33,7 @@ class Img2Length(QMainWindow):
         self.ui.actionFolder_Info.triggered.connect(self.folder_info_dialog.show)
 
         self.folder_path = ""
-        
+
         self.folder_info_dialog = QDialog(self)
         self.folder_info_ui = Ui_InfoDialog()
         self.folder_info_ui.setupUi(self.folder_info_dialog)
@@ -96,6 +96,58 @@ class Img2Length(QMainWindow):
 
         return f"Total Length: {total_length:.2f} {unit}"
 
+    # def update_conversion(self):
+    #     if self.folder_path:
+    #         unit = self.ui.unitComboBox.currentText()
+    #     else:
+    #         unit = None
+    #     include_subfolders = self.ui.SubfoldersCheckBox.isChecked()
+    #     try:
+    #         converted_length = self.convert_pixels(self.folder_path, unit, include_subfolders)
+    #         self.ui.converted_label.setText(converted_length)
+
+    #         # Extract metadata and update folder info dialog
+    #         total_count, total_file_size, unique_dimensions_count, min_resolution, max_resolution = self.extract_metadata(self.folder_path, include_subfolders)
+    #         self.folder_info_ui.ttlImgLabel.setText(str(total_count))
+    #         self.folder_info_ui.ttFileSizeLabel.setText(f"{total_file_size / (1024 * 1024):.2f} MB")
+    #         self.folder_info_ui.uniqueDimLabel.setText(str(unique_dimensions_count))
+    #         self.folder_info_ui.smallResLabel.setText(f"{min_resolution[0]} x {min_resolution[1]}")
+    #         self.folder_info_ui.highResLabel.setText(f"{max_resolution[0]} x {max_resolution[1]}")
+
+    #         # Show the folder info dialog
+    #         self.folder_info_dialog.show()
+    #     except Exception as e:
+    #         QMessageBox.critical(self, "Error", str(e))
+
+
+    def update_conversion(self):
+        unit = self.ui.unitComboBox.currentText()
+        include_subfolders = self.ui.SubfoldersCheckBox.isChecked()
+
+        if not self.folder_path:
+            self.ui.converted_label.setText(f"Selected unit: {unit}")
+            return
+
+        try:
+            converted_length = self.convert_pixels(self.folder_path, unit, include_subfolders)
+            self.ui.converted_label.setText(str(converted_length))
+            self.update_folder_info(include_subfolders)
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
+            
+    def update_folder_info(self, include_subfolders):
+        try:
+            total_count, total_file_size, unique_dimensions_count, min_resolution, max_resolution = self.extract_metadata(self.folder_path, include_subfolders)
+            self.folder_info_ui.ttlImgLabel.setText(str(total_count))
+            self.folder_info_ui.ttFileSizeLabel.setText(f"{total_file_size / (1024 * 1024):.2f} MB")
+            self.folder_info_ui.uniqueDimLabel.setText(str(unique_dimensions_count))
+            self.folder_info_ui.smallResLabel.setText(f"{min_resolution[0]} x {min_resolution[1]}")
+            self.folder_info_ui.highResLabel.setText(f"{max_resolution[0]} x {max_resolution[1]}")
+
+            self.folder_info_dialog.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
+            
     def extract_metadata(self, folder_path, include_subfolders):
         # Initialize variables to store metadata and statistics
         total_count = 0
@@ -140,28 +192,6 @@ class Img2Length(QMainWindow):
 
         # Return the collected metadata and statistics
         return total_count, total_file_size, len(unique_dimensions), min_resolution, max_resolution
-    def update_conversion(self):
-        if self.folder_path:
-            unit = self.ui.unitComboBox.currentText()
-        include_subfolders = self.ui.SubfoldersCheckBox.isChecked()
-        try:
-            converted_length = self.convert_pixels(self.folder_path, unit, include_subfolders)
-            self.ui.converted_label.setText(converted_length)
-
-            # Extract metadata and update folder info dialog
-            total_count, total_file_size, unique_dimensions_count, min_resolution, max_resolution = self.extract_metadata(self.folder_path, include_subfolders)
-            self.folder_info_ui.ttlImgLabel.setText(str(total_count))
-            self.folder_info_ui.ttFileSizeLabel.setText(f"{total_file_size / (1024 * 1024):.2f} MB")
-            self.folder_info_ui.uniqueDimLabel.setText(str(unique_dimensions_count))
-            self.folder_info_ui.smallResLabel.setText(f"{min_resolution[0]} x {min_resolution[1]}")
-            self.folder_info_ui.highResLabel.setText(f"{max_resolution[0]} x {max_resolution[1]}")
-
-            # Show the folder info dialog
-            self.folder_info_dialog.show()
-        except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
-
-
 
 
 if __name__ == "__main__":

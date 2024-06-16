@@ -49,14 +49,14 @@ class Ui_Img2Length(object):
         self.folder_label = QLabel(self.splitter)
         self.folder_label.setObjectName(u"folder_label")
         self.splitter.addWidget(self.folder_label)
-        self.widget = QWidget(self.splitter)
-        self.widget.setObjectName(u"widget")
-        self.gridLayout = QGridLayout(self.widget)
+        self.layoutWidget = QWidget(self.splitter)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.gridLayout = QGridLayout(self.layoutWidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setSizeConstraint(QLayout.SetNoConstraint)
         self.gridLayout.setVerticalSpacing(8)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.unitComboBox = QComboBox(self.widget)
+        self.unitComboBox = QComboBox(self.layoutWidget)
         self.unitComboBox.addItem("")
         self.unitComboBox.addItem("")
         self.unitComboBox.addItem("")
@@ -72,12 +72,12 @@ class Ui_Img2Length(object):
 
         self.gridLayout.addWidget(self.unitComboBox, 0, 0, 1, 1)
 
-        self.SubfoldersCheckBox = QCheckBox(self.widget)
+        self.SubfoldersCheckBox = QCheckBox(self.layoutWidget)
         self.SubfoldersCheckBox.setObjectName(u"SubfoldersCheckBox")
 
         self.gridLayout.addWidget(self.SubfoldersCheckBox, 1, 0, 1, 2)
 
-        self.converted_label = QLabel(self.widget)
+        self.converted_label = QLabel(self.layoutWidget)
         self.converted_label.setObjectName(u"converted_label")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
@@ -88,18 +88,18 @@ class Ui_Img2Length(object):
 
         self.gridLayout.addWidget(self.converted_label, 2, 0, 1, 2)
 
-        self.browseButton = QPushButton(self.widget)
+        self.browseButton = QPushButton(self.layoutWidget)
         self.browseButton.setObjectName(u"browseButton")
         sizePolicy.setHeightForWidth(self.browseButton.sizePolicy().hasHeightForWidth())
         self.browseButton.setSizePolicy(sizePolicy)
 
         self.gridLayout.addWidget(self.browseButton, 0, 1, 1, 1)
 
-        self.splitter.addWidget(self.widget)
+        self.splitter.addWidget(self.layoutWidget)
         Img2Length.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(Img2Length)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 315, 21))
+        self.menubar.setGeometry(QRect(0, 0, 315, 25))
         self.menuInfo = QMenu(self.menubar)
         self.menuInfo.setObjectName(u"menuInfo")
         Img2Length.setMenuBar(self.menubar)

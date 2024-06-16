@@ -22,10 +22,17 @@ class Ui_InfoDialog(object):
     def setupUi(self, InfoDialog):
         if not InfoDialog.objectName():
             InfoDialog.setObjectName(u"InfoDialog")
-        InfoDialog.resize(400, 532)
+        InfoDialog.resize(400, 315)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(InfoDialog.sizePolicy().hasHeightForWidth())
+        InfoDialog.setSizePolicy(sizePolicy)
+        InfoDialog.setMinimumSize(QSize(400, 315))
+        InfoDialog.setMaximumSize(QSize(400, 315))
         self.buttonBox = QDialogButtonBox(InfoDialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setGeometry(QRect(30, 480, 341, 32))
+        self.buttonBox.setGeometry(QRect(30, 270, 341, 32))
         self.buttonBox.setOrientation(Qt.Horizontal)
         self.buttonBox.setStandardButtons(QDialogButtonBox.Ok)
         self.ttlCountUILabel = QLabel(InfoDialog)
@@ -67,7 +74,7 @@ class Ui_InfoDialog(object):
     # setupUi
 
     def retranslateUi(self, InfoDialog):
-        InfoDialog.setWindowTitle(QCoreApplication.translate("InfoDialog", u"Dialog", None))
+        InfoDialog.setWindowTitle(QCoreApplication.translate("InfoDialog", u"Folder Stats", None))
         self.ttlCountUILabel.setText(QCoreApplication.translate("InfoDialog", u"Total # Images:", None))
         self.ttlFileSizeUILabel.setText(QCoreApplication.translate("InfoDialog", u"Total File Size:", None))
         self.ttlUniqueUILabel.setText(QCoreApplication.translate("InfoDialog", u"Unique Dimensions:", None))
