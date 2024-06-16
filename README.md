@@ -18,7 +18,10 @@ Img2Length is a Python application that calculates the total length of images in
 -   Pillow (Python Imaging Library)
 
 ## Installation
+# Method 1:
+1. Download pre-compiled binary from Release
 
+# Method 2:
 1.  Clone the repository or download the source code.
 2.  Install the required dependencies using pip:
 
