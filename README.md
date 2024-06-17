@@ -42,10 +42,10 @@ pip install PySide6 Pillow
 6.  Click the "Folder Info" menu item to view folder statistics in a separate dialog.
 
 ## Known Issues
-Performance can suffer reading folders with large quantities of sub-folders
-No icons
-Progress bar not functioning
-
+- Performance can suffer reading folders with large quantities of sub-folders
+- No icons
+- Progress bar not functioning
+  
 ## Planned Features
 
 1. Error logging
