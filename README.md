@@ -19,7 +19,7 @@ Img2Length is a Python application that calculates the total length of images in
 
 ## Installation
 **Method 1:**
-1. Download pre-compiled binary from Releases (Windows Only)
+1. Download pre-compiled binary from [Releases](https://github.com/LyAhn/Img2Length/releases) (Windows only currently)
 2. Run Img2Length.exe
 
 **Method 2:**
@@ -42,10 +42,10 @@ pip install PySide6 Pillow
 6.  Click the "Folder Info" menu item to view folder statistics in a separate dialog.
 
 ## Known Issues
-- Performance can suffer reading folders with large quantities of sub-folders
-- No icons
-- Progress bar not functioning
-  
+Performance can suffer reading folders with large quantities of sub-folders
+No icons
+Progress bar not functioning
+
 ## Planned Features
 
 1. Error logging
