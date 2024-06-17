@@ -52,7 +52,7 @@ Progress bar not functioning
 2. Optional Saving of Stats/Metadata
 3. Additional file formats
 4. Different modes including Length and Area
-5. UI Rework
+5. UI Rework/Improvement
 
 ## Contributing
 

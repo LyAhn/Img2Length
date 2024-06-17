@@ -30,6 +30,9 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QProgressBar" name="progressBar">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -76,6 +79,51 @@
       <property name="verticalSpacing">
        <number>8</number>
       </property>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="browseButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Browse</string>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="converted_label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Total Length:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="SubfoldersCheckBox">
+        <property name="toolTip">
+         <string>*Slows down count on large number of sub-folders*</string>
+        </property>
+        <property name="statusTip">
+         <string>Not recommended for large subfolder counts</string>
+        </property>
+        <property name="text">
+         <string>Include subfolders?</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QComboBox" name="unitComboBox">
         <property name="sizePolicy">
@@ -117,48 +165,6 @@
           <string>mm</string>
          </property>
         </item>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="SubfoldersCheckBox">
-        <property name="toolTip">
-         <string>*Slows down count on large number of sub-folders*</string>
-        </property>
-        <property name="statusTip">
-         <string>Not recommended for large subfolder counts</string>
-        </property>
-        <property name="text">
-         <string>Include subfolders?</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QLabel" name="converted_label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Total Length:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="browseButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Browse</string>
-        </property>
        </widget>
       </item>
      </layout>

@@ -38,6 +38,18 @@ class Img2Length(QMainWindow):
         self.folder_info_ui = Ui_InfoDialog()
         self.folder_info_ui.setupUi(self.folder_info_dialog)
 
+    def count_files(self, folder_path, include_subfolders):
+        total_files = 0
+        if include_subfolders:
+            for root, dirs, files in os.walk(folder_path):
+                for filename in files:
+                    if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+                        total_files += 1
+        else:
+            for filename in os.listdir(folder_path):
+                if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+                    total_files += 1
+        return total_files
 
     def show_folder_info_dialog(self):
         self.folder_info_dialog.QDialog(self)
@@ -54,6 +66,7 @@ class Img2Length(QMainWindow):
     def convert_pixels(self, folder_path, unit, include_subfolders):
         total_length = 0
 
+        # Check if subfolders should be included
         if include_subfolders:
             # Iterate over all files in the folder and its subfolders
             for root, dirs, files in os.walk(folder_path):
@@ -74,6 +87,7 @@ class Img2Length(QMainWindow):
                             "mm": 0.2645833
                         }
                         total_length += width * conversion_factors[unit]
+
         else:
             # Iterate over all image files in the folder (excluding subfolders)
             for filename in os.listdir(folder_path):
@@ -96,29 +110,6 @@ class Img2Length(QMainWindow):
 
         return f"Total Length: {total_length:.2f} {unit}"
 
-    # def update_conversion(self):
-    #     if self.folder_path:
-    #         unit = self.ui.unitComboBox.currentText()
-    #     else:
-    #         unit = None
-    #     include_subfolders = self.ui.SubfoldersCheckBox.isChecked()
-    #     try:
-    #         converted_length = self.convert_pixels(self.folder_path, unit, include_subfolders)
-    #         self.ui.converted_label.setText(converted_length)
-
-    #         # Extract metadata and update folder info dialog
-    #         total_count, total_file_size, unique_dimensions_count, min_resolution, max_resolution = self.extract_metadata(self.folder_path, include_subfolders)
-    #         self.folder_info_ui.ttlImgLabel.setText(str(total_count))
-    #         self.folder_info_ui.ttFileSizeLabel.setText(f"{total_file_size / (1024 * 1024):.2f} MB")
-    #         self.folder_info_ui.uniqueDimLabel.setText(str(unique_dimensions_count))
-    #         self.folder_info_ui.smallResLabel.setText(f"{min_resolution[0]} x {min_resolution[1]}")
-    #         self.folder_info_ui.highResLabel.setText(f"{max_resolution[0]} x {max_resolution[1]}")
-
-    #         # Show the folder info dialog
-    #         self.folder_info_dialog.show()
-    #     except Exception as e:
-    #         QMessageBox.critical(self, "Error", str(e))
-
 
     def update_conversion(self):
         unit = self.ui.unitComboBox.currentText()
@@ -129,6 +120,7 @@ class Img2Length(QMainWindow):
             return
 
         try:
+            self.ui.progressBar.setValue(0)
             converted_length = self.convert_pixels(self.folder_path, unit, include_subfolders)
             self.ui.converted_label.setText(str(converted_length))
             self.update_folder_info(include_subfolders)
