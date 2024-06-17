@@ -34,7 +34,7 @@ class Img2Length(QMainWindow):
 
         self.folder_path = ""
 
-        self.folder_info_dialog = QDialog(self)
+        #self.folder_info_dialog = QDialog(self) -- Removing this fixed the phantom unpopulated dialog.
         self.folder_info_ui = Ui_InfoDialog()
         self.folder_info_ui.setupUi(self.folder_info_dialog)
 

@@ -92,6 +92,7 @@ class Ui_Img2Length(object):
         self.browseButton.setObjectName(u"browseButton")
         sizePolicy.setHeightForWidth(self.browseButton.sizePolicy().hasHeightForWidth())
         self.browseButton.setSizePolicy(sizePolicy)
+        self.browseButton.setAcceptDrops(True)
 
         self.gridLayout.addWidget(self.browseButton, 0, 1, 1, 1)
 
