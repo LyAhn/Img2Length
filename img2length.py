@@ -25,6 +25,9 @@ class Img2Length(QMainWindow):
         self.ui.browseButton.clicked.connect(self.browse_folders)
         self.ui.unitComboBox.currentTextChanged.connect(self.update_conversion)
         self.ui.SubfoldersCheckBox.stateChanged.connect(self.update_conversion)
+        
+        # Remove the resize grip from main window
+        self.statusBar().setSizeGripEnabled(False)
 
         # Create an instance of the FolderInfoDialog
         self.folder_info_dialog = FolderInfoDialog(self)
@@ -39,16 +42,13 @@ class Img2Length(QMainWindow):
         self.folder_info_ui.setupUi(self.folder_info_dialog)
 
     def count_files(self, folder_path, include_subfolders):
-        total_files = 0
-        if include_subfolders:
-            for root, dirs, files in os.walk(folder_path):
-                for filename in files:
-                    if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
-                        total_files += 1
-        else:
-            for filename in os.listdir(folder_path):
-                if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
-                    total_files += 1
+        total_files = sum(
+            1 for root, _, files in os.walk(folder_path)
+            if any(file.endswith((".jpg", ".jpeg", ".png")) for file in files)
+        ) if include_subfolders else sum(
+            1 for file in os.listdir(folder_path)
+            if file.endswith((".jpg", ".jpeg", ".png"))
+        )
         return total_files
 
     def show_folder_info_dialog(self):
@@ -126,7 +126,7 @@ class Img2Length(QMainWindow):
             self.update_folder_info(include_subfolders)
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
-            
+
     def update_folder_info(self, include_subfolders):
         try:
             total_count, total_file_size, unique_dimensions_count, min_resolution, max_resolution = self.extract_metadata(self.folder_path, include_subfolders)
@@ -139,7 +139,7 @@ class Img2Length(QMainWindow):
             self.folder_info_dialog.show()
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
-            
+
     def extract_metadata(self, folder_path, include_subfolders):
         # Initialize variables to store metadata and statistics
         total_count = 0
