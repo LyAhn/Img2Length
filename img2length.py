@@ -21,7 +21,7 @@ Application configuration settings for the Img2Length tool.
 This dictionary contains various metadata about the application, such as the version, name, author, and description.
 """
 app_config = {
-    "version": "0.0.1-alpha",
+    "version": "0.0.2-alpha",
     "name": "Img2Length",
     "author": "LyAhn",
     "description": "Convert image files to a specified unit.",
@@ -84,7 +84,7 @@ class Img2Length(QMainWindow):
         total_length = 0
         conversion_factors = {
         "mile": 0.000000164578833,
-        "meter": 0.0002645833,
+        "metre": 0.0002645833,
         "yard": 0.0002893912,
         "km": 0.0000002645833,
         "cm": 0.02645833,

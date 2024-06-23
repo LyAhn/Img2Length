@@ -5,7 +5,7 @@ Img2Length is a Python application that calculates the total length of images in
 
 ## Features
 
--   Select a folder containing image files (JPG, JPEG, PNG)
+-   Select a folder containing image files (JPG, PNG, GIF, BMP, TIFF, & WEBP)
 -   Choose the desired unit of measurement (mile, meter, yard, km, cm, mm)
 -   Option to include or exclude subfolders in the calculation
 -   Display the total length of all images in the selected folder
@@ -19,7 +19,7 @@ Img2Length is a Python application that calculates the total length of images in
 
 ## Installation
 **Method 1:**
-1. Download pre-compiled binary from Releases (Windows Only)
+1. Download pre-compiled binary from [Releases](https://github.com/LyAhn/Img2Length/releases) (Windows only currently)
 2. Run Img2Length.exe
 
 **Method 2:**

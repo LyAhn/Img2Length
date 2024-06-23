@@ -133,26 +133,11 @@
          </sizepolicy>
         </property>
         <property name="currentText">
-         <string>mile</string>
+         <string>mm</string>
         </property>
         <item>
          <property name="text">
-          <string>mile</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>meter</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>yard</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>km</string>
+          <string>mm</string>
          </property>
         </item>
         <item>
@@ -162,7 +147,22 @@
         </item>
         <item>
          <property name="text">
-          <string>mm</string>
+          <string>metre</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>yard</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mile</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>km</string>
          </property>
         </item>
        </widget>
@@ -177,7 +177,7 @@
      <x>0</x>
      <y>0</y>
      <width>315</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuInfo">
