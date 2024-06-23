@@ -15,6 +15,18 @@ class FolderInfoDialog(QDialog):
         self.ui = Ui_InfoDialog()
         self.ui.setupUi(self)
 
+"""
+Application configuration settings for the Img2Length tool.
+
+This dictionary contains various metadata about the application, such as the version, name, author, and description.
+"""
+app_config = {
+    "version": "0.0.1-alpha",
+    "name": "Img2Length",
+    "author": "LyAhn",
+    "description": "Convert image files to a specified unit.",
+}
+
 class Img2Length(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -25,9 +37,12 @@ class Img2Length(QMainWindow):
         self.ui.browseButton.clicked.connect(self.browse_folders)
         self.ui.unitComboBox.currentTextChanged.connect(self.update_conversion)
         self.ui.SubfoldersCheckBox.stateChanged.connect(self.update_conversion)
-        
+
         # Remove the resize grip from main window
         self.statusBar().setSizeGripEnabled(False)
+        
+        # Adds version number to title bar
+        self.setWindowTitle(f"{app_config['name']} - {app_config['version']}")
 
         # Create an instance of the FolderInfoDialog
         self.folder_info_dialog = FolderInfoDialog(self)
@@ -63,50 +78,80 @@ class Img2Length(QMainWindow):
             self.ui.folder_label.setText(f"Selected Folder: {folder_path}")
             self.update_conversion()
 
+    # def convert_pixels(self, folder_path, unit, include_subfolders):
+    #     total_length = 0
+
+    #     # Check if subfolders should be included
+    #     if include_subfolders:
+    #         # Iterate over all files in the folder and its subfolders
+    #         for root, dirs, files in os.walk(folder_path):
+    #             for filename in files:
+    #                 if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+    #                     # Open the image and get its width
+    #                     image_path = os.path.join(root, filename)
+    #                     image = Image.open(image_path)
+    #                     width, _ = image.size
+
+    #                     # Convert the width to the chosen unit and add it to the total length
+    #                     conversion_factors = {
+    #                         "mile": 0.000000164578833,
+    #                         "meter": 0.0002645833,
+    #                         "yard": 0.0002893912,
+    #                         "km": 0.0000002645833,
+    #                         "cm": 0.02645833,
+    #                         "mm": 0.2645833
+    #                     }
+    #                     total_length += width * conversion_factors[unit]
+
+    #     else:
+    #         # Iterate over all image files in the folder (excluding subfolders)
+    #         for filename in os.listdir(folder_path):
+    #             if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+    #                 # Open the image and get its width
+    #                 image_path = os.path.join(folder_path, filename)
+    #                 image = Image.open(image_path)
+    #                 width, _ = image.size
+
+    #                 # Convert the width to the chosen unit and add it to the total length
+    #                 conversion_factors = {
+    #                         "mile": 0.000000164578833,
+    #                         "meter": 0.0002645833,
+    #                         "yard": 0.0002893912,
+    #                         "km": 0.0000002645833,
+    #                         "cm": 0.02645833,
+    #                         "mm": 0.2645833
+    #                 }
+    #                 total_length += width * conversion_factors[unit]
+
+    #     return f"Total Length: {total_length:.2f} {unit}"
+    
+
     def convert_pixels(self, folder_path, unit, include_subfolders):
         total_length = 0
+        conversion_factors = {
+        "mile": 0.000000164578833,
+        "meter": 0.0002645833,
+        "yard": 0.0002893912,
+        "km": 0.0000002645833,
+        "cm": 0.02645833,
+        "mm": 0.2645833
+    }
 
-        # Check if subfolders should be included
+        def process_image(image_path):
+            with Image.open(image_path) as image:
+                return image.size[0] * conversion_factors[unit]
+
+        image_extensions = ('.jpg', '.jpeg', '.png')
+
         if include_subfolders:
-            # Iterate over all files in the folder and its subfolders
-            for root, dirs, files in os.walk(folder_path):
+            for root, _, files in os.walk(folder_path):
                 for filename in files:
-                    if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
-                        # Open the image and get its width
-                        image_path = os.path.join(root, filename)
-                        image = Image.open(image_path)
-                        width, _ = image.size
-
-                        # Convert the width to the chosen unit and add it to the total length
-                        conversion_factors = {
-                            "mile": 0.000000164578833,
-                            "meter": 0.0002645833,
-                            "yard": 0.0002893912,
-                            "km": 0.0000002645833,
-                            "cm": 0.02645833,
-                            "mm": 0.2645833
-                        }
-                        total_length += width * conversion_factors[unit]
-
+                    if filename.lower().endswith(image_extensions):
+                        total_length += process_image(os.path.join(root, filename))
         else:
-            # Iterate over all image files in the folder (excluding subfolders)
             for filename in os.listdir(folder_path):
-                if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
-                    # Open the image and get its width
-                    image_path = os.path.join(folder_path, filename)
-                    image = Image.open(image_path)
-                    width, _ = image.size
-
-                    # Convert the width to the chosen unit and add it to the total length
-                    conversion_factors = {
-                            "mile": 0.000000164578833,
-                            "meter": 0.0002645833,
-                            "yard": 0.0002893912,
-                            "km": 0.0000002645833,
-                            "cm": 0.02645833,
-                            "mm": 0.2645833
-                    }
-                    total_length += width * conversion_factors[unit]
+                if filename.lower().endswith(image_extensions):
+                    total_length += process_image(os.path.join(folder_path, filename))
 
         return f"Total Length: {total_length:.2f} {unit}"
 
