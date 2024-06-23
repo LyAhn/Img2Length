@@ -26,6 +26,8 @@ app_config = {
     "author": "LyAhn",
     "description": "Convert image files to a specified unit.",
 }
+# Sets the image extensions that will be counted globally
+image_extensions = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp')
 
 class Img2Length(QMainWindow):
     def __init__(self):
@@ -40,7 +42,7 @@ class Img2Length(QMainWindow):
 
         # Remove the resize grip from main window
         self.statusBar().setSizeGripEnabled(False)
-        
+
         # Adds version number to title bar
         self.setWindowTitle(f"{app_config['name']} - {app_config['version']}")
 
@@ -59,10 +61,10 @@ class Img2Length(QMainWindow):
     def count_files(self, folder_path, include_subfolders):
         total_files = sum(
             1 for root, _, files in os.walk(folder_path)
-            if any(file.endswith((".jpg", ".jpeg", ".png")) for file in files)
+            if any(file.endswith((image_extensions)) for file in files)
         ) if include_subfolders else sum(
             1 for file in os.listdir(folder_path)
-            if file.endswith((".jpg", ".jpeg", ".png"))
+            if file.endswith((image_extensions))
         )
         return total_files
 
@@ -77,54 +79,6 @@ class Img2Length(QMainWindow):
             self.folder_path = folder_path
             self.ui.folder_label.setText(f"Selected Folder: {folder_path}")
             self.update_conversion()
-
-    # def convert_pixels(self, folder_path, unit, include_subfolders):
-    #     total_length = 0
-
-    #     # Check if subfolders should be included
-    #     if include_subfolders:
-    #         # Iterate over all files in the folder and its subfolders
-    #         for root, dirs, files in os.walk(folder_path):
-    #             for filename in files:
-    #                 if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
-    #                     # Open the image and get its width
-    #                     image_path = os.path.join(root, filename)
-    #                     image = Image.open(image_path)
-    #                     width, _ = image.size
-
-    #                     # Convert the width to the chosen unit and add it to the total length
-    #                     conversion_factors = {
-    #                         "mile": 0.000000164578833,
-    #                         "meter": 0.0002645833,
-    #                         "yard": 0.0002893912,
-    #                         "km": 0.0000002645833,
-    #                         "cm": 0.02645833,
-    #                         "mm": 0.2645833
-    #                     }
-    #                     total_length += width * conversion_factors[unit]
-
-    #     else:
-    #         # Iterate over all image files in the folder (excluding subfolders)
-    #         for filename in os.listdir(folder_path):
-    #             if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
-    #                 # Open the image and get its width
-    #                 image_path = os.path.join(folder_path, filename)
-    #                 image = Image.open(image_path)
-    #                 width, _ = image.size
-
-    #                 # Convert the width to the chosen unit and add it to the total length
-    #                 conversion_factors = {
-    #                         "mile": 0.000000164578833,
-    #                         "meter": 0.0002645833,
-    #                         "yard": 0.0002893912,
-    #                         "km": 0.0000002645833,
-    #                         "cm": 0.02645833,
-    #                         "mm": 0.2645833
-    #                 }
-    #                 total_length += width * conversion_factors[unit]
-
-    #     return f"Total Length: {total_length:.2f} {unit}"
-    
 
     def convert_pixels(self, folder_path, unit, include_subfolders):
         total_length = 0
@@ -141,7 +95,6 @@ class Img2Length(QMainWindow):
             with Image.open(image_path) as image:
                 return image.size[0] * conversion_factors[unit]
 
-        image_extensions = ('.jpg', '.jpeg', '.png')
 
         if include_subfolders:
             for root, _, files in os.walk(folder_path):
@@ -197,7 +150,7 @@ class Img2Length(QMainWindow):
             # Iterate over all files in the folder and its subfolders
             for root, dirs, files in os.walk(folder_path):
                 for filename in files:
-                    if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+                    if filename.endswith(image_extensions):
                         # Open the image and extract metadata
                         image_path = os.path.join(root, filename)
                         image = Image.open(image_path)
@@ -213,7 +166,7 @@ class Img2Length(QMainWindow):
         else:
             # Iterate over all image files in the folder (excluding subfolders)
             for filename in os.listdir(folder_path):
-                if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+                if filename.endswith(image_extensions):
                     # Open the image and extract metadata
                     image_path = os.path.join(folder_path, filename)
                     image = Image.open(image_path)
