@@ -25,6 +25,9 @@
   <property name="windowTitle">
    <string>Folder Stats</string>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
   <widget class="QLabel" name="ttlImgLabel">
    <property name="geometry">
     <rect>
