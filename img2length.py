@@ -113,30 +113,39 @@ class Img2Length(QMainWindow):
     def convert_pixels(self, folder_path, unit, include_subfolders):
         total_length = 0
         conversion_factors = {
-        "mile": 0.000000164578833,
-        "metre": 0.0002645833,
-        "yard": 0.0002893912,
-        "km": 0.0000002645833,
-        "cm": 0.02645833,
-        "mm": 0.2645833
+            "mile": 0.000000164578833,
+            "metre": 0.0002645833,
+            "yard": 0.0002893912,
+            "km": 0.0000002645833,
+            "cm": 0.02645833,
+            "mm": 0.2645833
     }
 
         logging.info(f"Starting conversion: Folder={folder_path}, Unit={unit}, IncludeSubfolders={include_subfolders}")
 
         def process_image(image_path):
-            with Image.open(image_path) as image:
-                return image.size[0] * conversion_factors[unit]
+            try:
+                with Image.open(image_path) as image:
+                    return image.size[0] * conversion_factors[unit]
+            except (IOError, OSError) as e:
+                logging.error(f"Error processing image {image_path}: {str(e)}")
+                QMessageBox.critical(self, "Error", f"Error processing image {image_path}: {str(e)}")
+            return 0
 
-
-        if include_subfolders:
-            for root, _, files in os.walk(folder_path):
-                for filename in files:
+        try:
+            if include_subfolders:
+                for root, _, files in os.walk(folder_path):
+                    for filename in files:
+                        if filename.lower().endswith(image_extensions):
+                            total_length += process_image(os.path.join(root, filename))
+            else:
+                for filename in os.listdir(folder_path):
                     if filename.lower().endswith(image_extensions):
-                        total_length += process_image(os.path.join(root, filename))
-        else:
-            for filename in os.listdir(folder_path):
-                if filename.lower().endswith(image_extensions):
-                    total_length += process_image(os.path.join(folder_path, filename))
+                        total_length += process_image(os.path.join(folder_path, filename))
+        except Exception as e:
+            logging.error(f"Error during conversion: {str(e)}")
+            QMessageBox.critical(self, "Error", f"Error during conversion: {str(e)}")
+
         logging.info(f"Conversion completed. Total Length: {total_length:.2f} {unit}")
         return f"Total Length: {total_length:.2f} {unit}"
 
@@ -144,6 +153,9 @@ class Img2Length(QMainWindow):
     def update_conversion(self):
         unit = self.ui.unitComboBox.currentText()
         include_subfolders = self.ui.SubfoldersCheckBox.isChecked()
+        
+        logging.info(f"Updating conversion: Unit={unit}, IncludeSubfolders={include_subfolders}")
+
 
         if not self.folder_path:
             self.ui.converted_label.setText(f"Selected unit: {unit}")
@@ -158,6 +170,8 @@ class Img2Length(QMainWindow):
             error_message = f"Error during conversion: {str(e)}"
             logging.error(error_message)
             QMessageBox.critical(self, "Error", error_message)
+        finally:
+            self.ui.progressBar.setValue(100)
 
     def update_folder_info(self, include_subfolders):
         try:
@@ -170,25 +184,48 @@ class Img2Length(QMainWindow):
 
             self.folder_info_dialog.show()
         except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
+            QMessageBox.critical(self, "Error updating folder info", str(e))
+            logging.error("Error updating folder info: " + str(e))
 
     def extract_metadata(self, folder_path, include_subfolders):
         logging.info(f"Extracting metadata from folder: {folder_path}, Include Subfolders={include_subfolders}")
-        
+
         # Initialize variables to store metadata and statistics
         total_count = 0
         total_file_size = 0
         unique_dimensions = set()
         min_resolution = (float('inf'), float('inf'))
         max_resolution = (0, 0)
+        
+        try:
 
-        if include_subfolders:
-            # Iterate over all files in the folder and its subfolders
-            for root, dirs, files in os.walk(folder_path):
-                for filename in files:
-                    if filename.endswith(image_extensions):
+            if include_subfolders:
+                # Iterate over all files in the folder and its subfolders
+                for root, dirs, files in os.walk(folder_path):
+                    for filename in files:
+                        if filename.endswith(image_extensions):
+                            # Open the image and extract metadata
+                            image_path = os.path.join(root, filename)
+                            image = Image.open(image_path)
+                            width, height = image.size
+                            file_size = os.path.getsize(image_path)
+
+                            # Update metadata and statistics
+                            total_count += 1
+                            total_file_size += file_size
+                            unique_dimensions.add((width, height))
+                            min_resolution = min(min_resolution, (width, height), key=lambda x: x[0] * x[1])
+                            max_resolution = max(max_resolution, (width, height), key=lambda x: x[0] * x[1])
+        except (IOError, OSError) as e:
+                        logging.error(f"Error processing image {image_path}: {str(e)}")
+                        QMessageBox.critical(self, "Error", f"Error processing image {image_path}: {str(e)}")
+        else:
+            # Iterate over all image files in the folder (excluding subfolders)
+            for filename in os.listdir(folder_path):
+                if filename.endswith(image_extensions):
+                    try:
                         # Open the image and extract metadata
-                        image_path = os.path.join(root, filename)
+                        image_path = os.path.join(folder_path, filename)
                         image = Image.open(image_path)
                         width, height = image.size
                         file_size = os.path.getsize(image_path)
@@ -199,30 +236,22 @@ class Img2Length(QMainWindow):
                         unique_dimensions.add((width, height))
                         min_resolution = min(min_resolution, (width, height), key=lambda x: x[0] * x[1])
                         max_resolution = max(max_resolution, (width, height), key=lambda x: x[0] * x[1])
-        else:
-            # Iterate over all image files in the folder (excluding subfolders)
-            for filename in os.listdir(folder_path):
-                if filename.endswith(image_extensions):
-                    # Open the image and extract metadata
-                    image_path = os.path.join(folder_path, filename)
-                    image = Image.open(image_path)
-                    width, height = image.size
-                    file_size = os.path.getsize(image_path)
+                    except (IOError, OSError) as e:
+                        logging.error(f"Error processing image {image_path}: {str(e)}")
+                        QMessageBox.critical(self, "Error", f"Error processing image {image_path}: {str(e)}")
 
-                    # Update metadata and statistics
-                    total_count += 1
-                    total_file_size += file_size
-                    unique_dimensions.add((width, height))
-                    min_resolution = min(min_resolution, (width, height), key=lambda x: x[0] * x[1])
-                    max_resolution = max(max_resolution, (width, height), key=lambda x: x[0] * x[1])
-
-        logging.info(f"Total count: {total_count}, Total file size: {total_file_size}, Unique dimensions: {len(unique_dimensions)}, Min resolution: {min_resolution}, Max resolution: {max_resolution}")
+        logging.info(f"Metadata extraction completed. Total count: {total_count}, Total file size: {total_file_size}, Unique dimensions: {len(unique_dimensions)}, Min resolution: {min_resolution}, Max resolution: {max_resolution}")
         # Return the collected metadata and statistics
         return total_count, total_file_size, len(unique_dimensions), min_resolution, max_resolution
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = Img2Length()
-    window.show()
-    sys.exit(app.exec())
+    try:
+        app = QApplication(sys.argv)
+        window = Img2Length()
+        window.show()
+        sys.exit(app.exec())
+    except:
+        logging.critical(f"Critical error: {str(e)}")
+        QMessageBox.critical(None, "Critical Error", f"An unexpected error occurred: {str(e)}")
+        sys.exit(1)
