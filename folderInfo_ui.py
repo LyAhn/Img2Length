@@ -29,6 +29,7 @@ class Ui_InfoDialog(object):
         sizePolicy.setHeightForWidth(InfoDialog.sizePolicy().hasHeightForWidth())
         InfoDialog.setSizePolicy(sizePolicy)
         InfoDialog.setMinimumSize(QSize(400, 227))
+        InfoDialog.setSizeGripEnabled(False)
         self.ttlImgLabel = QLabel(InfoDialog)
         self.ttlImgLabel.setObjectName(u"ttlImgLabel")
         self.ttlImgLabel.setGeometry(QRect(150, 50, 81, 16))
