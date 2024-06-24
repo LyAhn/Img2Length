@@ -251,7 +251,7 @@ if __name__ == "__main__":
         window = Img2Length()
         window.show()
         sys.exit(app.exec())
-    except:
+    except Exception as e:
         logging.critical(f"Critical error: {str(e)}")
         QMessageBox.critical(None, "Critical Error", f"An unexpected error occurred: {str(e)}")
         sys.exit(1)
