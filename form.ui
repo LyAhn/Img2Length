@@ -22,6 +22,9 @@
     <height>219</height>
    </size>
   </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
    <string>Img2Length</string>
   </property>
@@ -54,121 +57,130 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QSplitter" name="splitter">
+   <widget class="QLabel" name="folder_label">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>271</width>
-      <height>92</height>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="text">
+     <string/>
     </property>
-    <widget class="QLabel" name="folder_label">
+   </widget>
+   <widget class="QCheckBox" name="SubfoldersCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>62</x>
+      <y>58</y>
+      <width>186</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>*Slows down count on large number of sub-folders*</string>
+    </property>
+    <property name="statusTip">
+     <string>Not recommended for large subfolder counts</string>
+    </property>
+    <property name="text">
+     <string>Include subfolders?</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="unitComboBox">
+    <property name="geometry">
+     <rect>
+      <x>62</x>
+      <y>31</y>
+      <width>59</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="currentText">
+     <string>mm</string>
+    </property>
+    <item>
      <property name="text">
-      <string/>
+      <string>mm</string>
      </property>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetNoConstraint</enum>
-      </property>
-      <property name="verticalSpacing">
-       <number>8</number>
-      </property>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="browseButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Browse</string>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QLabel" name="converted_label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Total Length:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="SubfoldersCheckBox">
-        <property name="toolTip">
-         <string>*Slows down count on large number of sub-folders*</string>
-        </property>
-        <property name="statusTip">
-         <string>Not recommended for large subfolder counts</string>
-        </property>
-        <property name="text">
-         <string>Include subfolders?</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QComboBox" name="unitComboBox">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="currentText">
-         <string>mm</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>mm</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>cm</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>metre</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>yard</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>mile</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>km</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+    </item>
+    <item>
+     <property name="text">
+      <string>cm</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>metre</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>yard</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>mile</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>km</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="converted_label">
+    <property name="geometry">
+     <rect>
+      <x>62</x>
+      <y>85</y>
+      <width>68</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>Total Length:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="browseButton">
+    <property name="geometry">
+     <rect>
+      <x>168</x>
+      <y>31</y>
+      <width>80</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>Browse</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

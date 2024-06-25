@@ -16,10 +16,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGridLayout,
-    QLabel, QLayout, QMainWindow, QMenu,
-    QMenuBar, QProgressBar, QPushButton, QSizePolicy,
-    QSplitter, QStatusBar, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QLabel,
+    QMainWindow, QMenu, QMenuBar, QProgressBar,
+    QPushButton, QSizePolicy, QStatusBar, QWidget)
 
 class Ui_Img2Length(object):
     def setupUi(self, Img2Length):
@@ -28,6 +27,7 @@ class Ui_Img2Length(object):
         Img2Length.resize(315, 219)
         Img2Length.setMinimumSize(QSize(315, 219))
         Img2Length.setMaximumSize(QSize(315, 219))
+        Img2Length.setAcceptDrops(False)
         Img2Length.setToolTipDuration(0)
         self.actionFolder_Info = QAction(Img2Length)
         self.actionFolder_Info.setObjectName(u"actionFolder_Info")
@@ -43,48 +43,13 @@ class Ui_Img2Length(object):
         self.progressBar.setAlignment(Qt.AlignCenter)
         self.progressBar.setTextVisible(False)
         self.progressBar.setInvertedAppearance(False)
-        self.splitter = QSplitter(self.centralwidget)
-        self.splitter.setObjectName(u"splitter")
-        self.splitter.setGeometry(QRect(20, 10, 271, 92))
-        self.splitter.setOrientation(Qt.Vertical)
-        self.folder_label = QLabel(self.splitter)
+        self.folder_label = QLabel(self.centralwidget)
         self.folder_label.setObjectName(u"folder_label")
-        self.splitter.addWidget(self.folder_label)
-        self.layoutWidget = QWidget(self.splitter)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.gridLayout = QGridLayout(self.layoutWidget)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setSizeConstraint(QLayout.SetNoConstraint)
-        self.gridLayout.setVerticalSpacing(8)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.browseButton = QPushButton(self.layoutWidget)
-        self.browseButton.setObjectName(u"browseButton")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.browseButton.sizePolicy().hasHeightForWidth())
-        self.browseButton.setSizePolicy(sizePolicy)
-        self.browseButton.setFlat(False)
-
-        self.gridLayout.addWidget(self.browseButton, 0, 1, 1, 1)
-
-        self.converted_label = QLabel(self.layoutWidget)
-        self.converted_label.setObjectName(u"converted_label")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.converted_label.sizePolicy().hasHeightForWidth())
-        self.converted_label.setSizePolicy(sizePolicy1)
-        self.converted_label.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.converted_label, 2, 0, 1, 2)
-
-        self.SubfoldersCheckBox = QCheckBox(self.layoutWidget)
+        self.folder_label.setGeometry(QRect(20, 10, 16, 16))
+        self.SubfoldersCheckBox = QCheckBox(self.centralwidget)
         self.SubfoldersCheckBox.setObjectName(u"SubfoldersCheckBox")
-
-        self.gridLayout.addWidget(self.SubfoldersCheckBox, 1, 0, 1, 2)
-
-        self.unitComboBox = QComboBox(self.layoutWidget)
+        self.SubfoldersCheckBox.setGeometry(QRect(62, 58, 186, 19))
+        self.unitComboBox = QComboBox(self.centralwidget)
         self.unitComboBox.addItem("")
         self.unitComboBox.addItem("")
         self.unitComboBox.addItem("")
@@ -92,12 +57,27 @@ class Ui_Img2Length(object):
         self.unitComboBox.addItem("")
         self.unitComboBox.addItem("")
         self.unitComboBox.setObjectName(u"unitComboBox")
+        self.unitComboBox.setGeometry(QRect(62, 31, 59, 19))
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.unitComboBox.sizePolicy().hasHeightForWidth())
         self.unitComboBox.setSizePolicy(sizePolicy)
-
-        self.gridLayout.addWidget(self.unitComboBox, 0, 0, 1, 1)
-
-        self.splitter.addWidget(self.layoutWidget)
+        self.converted_label = QLabel(self.centralwidget)
+        self.converted_label.setObjectName(u"converted_label")
+        self.converted_label.setGeometry(QRect(62, 85, 68, 16))
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.converted_label.sizePolicy().hasHeightForWidth())
+        self.converted_label.setSizePolicy(sizePolicy1)
+        self.converted_label.setAlignment(Qt.AlignCenter)
+        self.browseButton = QPushButton(self.centralwidget)
+        self.browseButton.setObjectName(u"browseButton")
+        self.browseButton.setGeometry(QRect(168, 31, 80, 19))
+        sizePolicy.setHeightForWidth(self.browseButton.sizePolicy().hasHeightForWidth())
+        self.browseButton.setSizePolicy(sizePolicy)
+        self.browseButton.setFlat(False)
         Img2Length.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(Img2Length)
         self.menubar.setObjectName(u"menubar")
@@ -122,8 +102,6 @@ class Ui_Img2Length(object):
         Img2Length.setWindowTitle(QCoreApplication.translate("Img2Length", u"Img2Length", None))
         self.actionFolder_Info.setText(QCoreApplication.translate("Img2Length", u"Folder Info", None))
         self.folder_label.setText("")
-        self.browseButton.setText(QCoreApplication.translate("Img2Length", u"Browse", None))
-        self.converted_label.setText(QCoreApplication.translate("Img2Length", u"Total Length:", None))
 #if QT_CONFIG(tooltip)
         self.SubfoldersCheckBox.setToolTip(QCoreApplication.translate("Img2Length", u"*Slows down count on large number of sub-folders*", None))
 #endif // QT_CONFIG(tooltip)
@@ -139,6 +117,8 @@ class Ui_Img2Length(object):
         self.unitComboBox.setItemText(5, QCoreApplication.translate("Img2Length", u"km", None))
 
         self.unitComboBox.setCurrentText(QCoreApplication.translate("Img2Length", u"mm", None))
+        self.converted_label.setText(QCoreApplication.translate("Img2Length", u"Total Length:", None))
+        self.browseButton.setText(QCoreApplication.translate("Img2Length", u"Browse", None))
         self.menuInfo.setTitle(QCoreApplication.translate("Img2Length", u"Info", None))
     # retranslateUi
 
